@@ -1,4 +1,8 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Project Path="CrossCutting/ToDo.CrossCutting.csproj" Id="8ef40046-eae9-4a56-8bda-7ff9a621447b" />
   <Project Path="Todo.Api/Todo.Api.csproj" Id="6cb6a93f-5371-4e15-81d0-d2724fb085b7" />
   <Project Path="ToDo.Application/ToDo.Application.csproj" Id="afc2926e-20f1-4c46-ba03-c43e59eb5eca" />
   <Project Path="ToDo.Domain/ToDo.Domain.csproj" Id="d982e3be-ad67-4109-911e-ad8731891a37" />
