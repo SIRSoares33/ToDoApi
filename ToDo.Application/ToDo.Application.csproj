@@ -11,18 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\" />
-    <Folder Include="Features\Auth\Commands\" />
-    <Folder Include="Features\Auth\Handlers\" />
-    <Folder Include="Features\Auth\Validations\" />
-    <Folder Include="Features\Auth\Queries\" />
-    <Folder Include="Mappings\" />
-    <Folder Include="Vallidations\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="16.0.0" />
     <PackageReference Include="FluentValidation" Version="12.1.1" />
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.1" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
     <PackageReference Include="MediatR" Version="14.0.0" />
   </ItemGroup>
 
