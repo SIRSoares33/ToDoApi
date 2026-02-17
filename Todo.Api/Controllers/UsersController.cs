@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using ToDo.Application.DTOs;
-using ToDo.Application.Features.Auth.Commands;
-using ToDo.Application.Features.Auth.Queries;
+using ToDo.Application.Features.Commands.Users;
+using ToDo.Application.Features.Queries.Users;
 
 namespace Todo.Api.Controllers;
 
@@ -19,8 +19,8 @@ public class UsersController(IMediator mediator) : ControllerBase
 
     [Authorize(Roles = "Admin")]
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UpdateUserDto dto, CancellationToken cancellationToken)
-    { await mediator.Send(new UpdateUserCommand(id, dto), cancellationToken); return NoContent(); }
+    public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UpdateUserByAdminDto dto, CancellationToken cancellationToken)
+    { await mediator.Send(new UpdateUserByAdminCommand(id, dto), cancellationToken); return NoContent(); }
 
     [Authorize]
     [HttpPut]
@@ -28,8 +28,6 @@ public class UsersController(IMediator mediator) : ControllerBase
     {
         if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var guidId))
             return Unauthorized();
-
-        dto.Role = null; // Prevent users from changing their own role.
 
         await mediator.Send(new UpdateUserCommand(guidId, dto), cancellationToken);
         return NoContent();

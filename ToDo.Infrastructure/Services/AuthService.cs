@@ -4,7 +4,7 @@ using Microsoft.Extensions.Logging;
 using Psalms.Auth.Jwt;
 using System.Security.Claims;
 using ToDo.Application.DTOs;
-using ToDo.Application.Features.Auth.Responses;
+using ToDo.Application.Features.Responses.Auth;
 using ToDo.Application.Interfaces;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Enums;
@@ -65,7 +65,7 @@ public class AuthService(
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Email, user.Email.Value),
             new Claim(ClaimTypes.Name, user.Name.Value),
-            new Claim(ClaimTypes.Role, user.Role.ToString())
+            new Claim(ClaimTypes.Role, user.Role!.Value.ToString())
         ]);
     }
 }

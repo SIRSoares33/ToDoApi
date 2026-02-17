@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ToDo.Application.DTOs;
-using ToDo.Application.Features.Auth.Commands;
+using ToDo.Application.Features.Commands.Auth;
+using ToDo.Application.Features.Commands.Users;
 using ToDo.Domain.Enums;
 
 namespace Todo.Api.Controllers;
