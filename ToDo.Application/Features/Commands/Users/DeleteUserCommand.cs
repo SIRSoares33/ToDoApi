@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace ToDo.Application.Features.Auth.Commands;
+namespace ToDo.Application.Features.Commands.Users;
 
 /// <summary>
 /// Represents a request to delete a user identified by a unique identifier.

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using ToDo.Application.DTOs;
-using ToDo.Application.Features.Auth.Responses;
+using ToDo.Application.Features.Responses.Auth;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Enums;
 

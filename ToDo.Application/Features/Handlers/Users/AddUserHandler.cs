@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using MediatR;
-using ToDo.Application.Features.Auth.Commands;
+using ToDo.Application.Features.Commands.Users;
 using ToDo.Application.Interfaces;
 using ToDo.Domain.Entities;
 
-namespace ToDo.Application.Features.Auth.Handlers;
+namespace ToDo.Application.Features.Handlers.Users;
 
 /// <summary>
 /// Handles the addition of a new user by processing an <see cref="AddUserCommand"/> request.

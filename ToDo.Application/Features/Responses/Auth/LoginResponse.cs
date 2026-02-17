@@ -1,4 +1,4 @@
-﻿namespace ToDo.Application.Features.Auth.Responses;
+﻿namespace ToDo.Application.Features.Responses.Auth;
 
 /// <summary>
 /// Represents the result of a login operation, including the user's unique identifier and authentication token.

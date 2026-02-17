@@ -1,9 +1,9 @@
 ﻿using MediatR;
-using ToDo.Application.Features.Auth.Commands;
-using ToDo.Application.Features.Auth.Responses;
+using ToDo.Application.Features.Commands.Auth;
+using ToDo.Application.Features.Responses.Auth;
 using ToDo.Application.Interfaces;
 
-namespace ToDo.Application.Features.Auth.Handlers;
+namespace ToDo.Application.Features.Handlers.Auth;
 
 /// <summary>
 /// Handles user login requests by validating credentials and generating a JWT access token.

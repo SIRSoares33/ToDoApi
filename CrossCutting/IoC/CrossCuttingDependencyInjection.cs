@@ -1,16 +1,15 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Psalms.AspNetCore.Auth.Jwt;
 using Psalms.Auth.Jwt;
-using ToDo.Application.Features.Auth.Handlers;
-using ToDo.Application.Features.Auth.Validations;
+using ToDo.Application.Features.Handlers.Auth;
+using ToDo.Application.Features.Mappings.Users;
+using ToDo.Application.Features.Validations.Auth;
 using ToDo.Application.Interfaces;
-using ToDo.Application.Mappings;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Enums;
 using ToDo.Domain.ValueObjects;
@@ -59,9 +58,9 @@ public static class CrossCuttingDependencyInjection
         using var scope = services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-        if (await context.Users.AnyAsync()) return;
+        await context.Database.MigrateAsync();
 
-        context.Database.Migrate();
+        if (await context.Users.AnyAsync()) return;
 
         var service = scope.ServiceProvider.GetRequiredService<IAuthService>();
 
@@ -71,7 +70,7 @@ public static class CrossCuttingDependencyInjection
             (
                 new Name("Admin"),
                 new Email("admin@email.com"),
-                new Password("Admin1234")
+                new Password("Admin123!")
             ), Role.Admin, CancellationToken.None
         );
     }

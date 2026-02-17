@@ -12,7 +12,7 @@ public class User
     public Name Name { get; private set; } = null!;
     public Email Email { get; private set; } = null!;
     public Password HashPassword { get; private set; } = null!;
-    public Role Role { get; private set; } = Role.User;
+    public Role? Role { get; private set; }
     #endregion
 
     #region Constructors
@@ -36,15 +36,15 @@ public class User
     public void ChangePassword(Password password) => HashPassword = password;
     public void ChangeRole(Role role) => Role = role;
 
-    public void Update(string? name, string? email, string? hashedPassword, Role? role)
+    public void Update(User user)
     {
-        if (!string.IsNullOrEmpty(name)) ChangeName(new Name(name));
+        if (!string.IsNullOrEmpty(user.Name.Value)) ChangeName(new Name(user.Name.Value));
 
-        if (!string.IsNullOrEmpty(email)) ChangeEmail(new Email(email));
+        if (!string.IsNullOrEmpty(user.Email.Value)) ChangeEmail(new Email(user.Email.Value));
 
-        if (!string.IsNullOrEmpty(hashedPassword)) ChangePassword(new Password(hashedPassword));
+        if (!string.IsNullOrEmpty(user.HashPassword.Value)) ChangePassword(new Password(user.HashPassword.Value));
 
-        ChangeRole(role ?? Role);
+        if (user.Role is not null && user.Role.Value != Role!.Value) ChangeRole(user.Role.Value);
     }
     #endregion
 }

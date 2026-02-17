@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using ToDo.Application.DTOs;
 
-namespace ToDo.Application.Features.Auth.Validations;
+namespace ToDo.Application.Features.Validations.Auth;
 
 public class LoginValidation : AbstractValidator<LoginDto>
 {

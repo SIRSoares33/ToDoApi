@@ -1,23 +1,22 @@
 ﻿using FluentValidation;
 using ToDo.Application.DTOs;
 
-namespace ToDo.Application.Features.Auth.Validations;
+namespace ToDo.Application.Features.Validations.Users;
 
-public class AddUserValidation : AbstractValidator<RegisterDto>
+public class UpdateUserValidation : AbstractValidator<UpdateUserDto>
 {
-    public AddUserValidation()
+    public UpdateUserValidation()
     {
+        
         RuleFor(x => x.Name)
-            .NotEmpty().WithMessage("Name is required.")
-            .MaximumLength(100).WithMessage("Name must not exceed 100 characters.");
+            .MaximumLength(100).WithMessage("Name must not exceed 100 characters.")
+            .When(x => x.Name != null);
 
         RuleFor(x => x.Email)
-            .NotEmpty().WithMessage("Email is required.")
-            .EmailAddress().WithMessage("Invalid email format.");
+            .EmailAddress().WithMessage("Invalid email format.")
+            .When(x => x.Name != null);
 
         RuleFor(x => x.Password)
-            .NotEmpty()
-                .WithMessage("Password cannot be null or empty.")
             .MinimumLength(8)
                 .WithMessage("Password must be at least 8 characters long.")
             .Must(p => p.Any(char.IsUpper))
@@ -27,6 +26,7 @@ public class AddUserValidation : AbstractValidator<RegisterDto>
             .Must(p => p.Any(char.IsDigit))
                 .WithMessage("Password must contain at least one digit.")
             .Must(p => p.Any(ch => !char.IsLetterOrDigit(ch)))
-                .WithMessage("Password must contain at least one special character.");
+                .WithMessage("Password must contain at least one special character.")
+                .When(x => x.Name != null);
     }
 }

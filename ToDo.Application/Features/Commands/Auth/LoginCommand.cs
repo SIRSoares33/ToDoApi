@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using ToDo.Application.DTOs;
-using ToDo.Application.Features.Auth.Responses;
+using ToDo.Application.Features.Responses.Auth;
 
-namespace ToDo.Application.Features.Auth.Commands;
+namespace ToDo.Application.Features.Commands.Auth;
 
 /// <summary>
 /// Represents a request to perform a login operation using the specified credentials.
