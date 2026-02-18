@@ -12,8 +12,8 @@ using ToDo.Infrastructure.Context;
 namespace ToDo.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260217185336_AddingRoleNull")]
-    partial class AddingRoleNull
+    [Migration("20260218162508_AddingUserTable")]
+    partial class AddingUserTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,7 +31,7 @@ namespace ToDo.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int?>("Role")
+                    b.Property<int>("Role")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");

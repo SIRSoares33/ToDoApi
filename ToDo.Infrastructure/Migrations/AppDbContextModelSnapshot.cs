@@ -28,7 +28,7 @@ namespace ToDo.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int?>("Role")
+                    b.Property<int>("Role")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
