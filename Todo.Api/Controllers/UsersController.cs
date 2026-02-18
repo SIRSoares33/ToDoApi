@@ -17,9 +17,9 @@ public class UsersController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> GetUsers(CancellationToken cancellationToken) 
         => Ok(await mediator.Send(new GetUsersQuery(), cancellationToken));
 
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")] 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UpdateUserByAdminDto dto, CancellationToken cancellationToken)
+    public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UpdateUserDto dto, CancellationToken cancellationToken)
     { await mediator.Send(new UpdateUserByAdminCommand(id, dto), cancellationToken); return NoContent(); }
 
     [Authorize]

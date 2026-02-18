@@ -1,8 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ToDo.Domain.Entities;
-using ToDo.Domain.Enums;
-using ToDo.Domain.ValueObjects;
 namespace ToDo.Infrastructure.Configuration;
 
 /// <summary>

@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 using Psalms.Auth.Jwt;
 using System.Security.Claims;
 using ToDo.Application.DTOs;
@@ -16,8 +15,7 @@ namespace ToDo.Infrastructure.Services;
 public class AuthService(
     IUserRepository repository,
     PsalmsJwtTokenService jwtService,
-    IPasswordHasher<IAuthService> hasher,
-    ILogger<AuthService> logger) : IAuthService
+    IPasswordHasher<IAuthService> hasher) : IAuthService
 {
     public async Task<LoginResponse> LoginAsync(LoginDto dto, CancellationToken cancellationToken)
     {
@@ -26,11 +24,6 @@ public class AuthService(
 
         if (hasher.VerifyHashedPassword(this, user.HashPassword.Value, dto.Password) == PasswordVerificationResult.Failed)
             throw new UnauthorizedAccessException("Invalid credentials.");
-
-        logger.LogInformation(
-            "User logged in successfully. UserId: {UserId}",
-            user.Id
-        );
 
         return new LoginResponse(user.Id, await CreateTokenAsync(user));
     }
@@ -45,27 +38,17 @@ public class AuthService(
 
         await repository.AddUserAsync(user, cancellationToken);
 
-        logger.LogInformation(
-            "User registered successfully. UserId: {UserId}",
-            user.Id
-        );
-
         return Unit.Value;
     }
 
     private async Task<string> CreateTokenAsync(User user)
     {
-        logger.LogDebug(
-            "Generating JWT token. UserId: {UserId}",
-            user.Id
-        );
-
         return await jwtService.GenerateAccessTokenAsync(
         [
             new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new Claim(ClaimTypes.Email, user.Email.Value),
             new Claim(ClaimTypes.Name, user.Name.Value),
-            new Claim(ClaimTypes.Role, user.Role!.Value.ToString())
+            new Claim(ClaimTypes.Role, user.Role.ToString())
         ]);
     }
 }

@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
+using ToDo.Application.DTOs;
 using ToDo.Application.Interfaces;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Interfaces.Repository;
-using ToDo.Domain.ValueObjects;
 
 namespace ToDo.Infrastructure.Services;
 
@@ -20,18 +20,17 @@ public class UserService(IUserRepository userRepository, IPasswordHasher<IAuthSe
         return Unit.Value;
     }
 
-    public async Task<Unit> UpdateUserAsync(Guid id, User userInput, CancellationToken cancellationToken)
+    public async Task<Unit> UpdateUserAsync(Guid id, UpdateUserDto dto, CancellationToken cancellationToken)
     {
         var user = await userRepository.GetUserByIdAsync(id, cancellationToken)
             ?? throw new UnauthorizedAccessException("User id not found.");
 
-        if (!string.IsNullOrEmpty(userInput.HashPassword.Value))
-            userInput.ChangePassword(await HashPasswordAsync(userInput.HashPassword.Value));
+        dto.Password = dto.Password is null ? null : hasher.HashPassword(null, dto.Password!);
 
-        if (await IsEmailRegisteredAsync(userInput.Email.Value, user.Email.Value, cancellationToken))
+        if (await IsEmailRegisteredAsync(dto.Email, cancellationToken))
             throw new UnauthorizedAccessException("Email is already registered.");
 
-        user.Update(userInput);
+        user.Update(dto.Name, dto.Email, dto.Password, dto.Role);
 
         await userRepository.UpdateUserAsync(user, cancellationToken);
 
@@ -43,10 +42,7 @@ public class UserService(IUserRepository userRepository, IPasswordHasher<IAuthSe
     #endregion
 
     #region Private Helper Methods
-    private async Task<bool> IsEmailRegisteredAsync(string emailInput, string userEmail, CancellationToken cancellationToken)
-        => !string.IsNullOrEmpty(emailInput) && emailInput != userEmail && await userRepository.IsEmailRegisteredAsync(emailInput, cancellationToken);
-
-    private Task<Password> HashPasswordAsync(string password)
-        => Task.FromResult(new Password(hasher.HashPassword(null, password)));
+    private async Task<bool> IsEmailRegisteredAsync(string? emailInput, CancellationToken cancellationToken)
+        => emailInput is not null && await userRepository.IsEmailRegisteredAsync(emailInput, cancellationToken);
     #endregion
 }

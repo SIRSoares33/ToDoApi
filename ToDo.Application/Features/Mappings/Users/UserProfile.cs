@@ -37,23 +37,5 @@ public class UserProfile : Profile
         .ForPath(dest => dest.Email,
             opt => opt.MapFrom(src => src.Email.Value))
             .ReverseMap();
-
-        CreateMap<UpdateUserDto, User>()
-            .ForPath(dest => dest.Email.Value,
-                opt => opt.MapFrom(src => src.Email))
-            .ForPath(dest => dest.Name.Value,
-                opt => opt.MapFrom(src => src.Name))
-            .ForPath(dest => dest.HashPassword.Value,
-                opt => opt.Ignore())
-            .ForPath(dest => dest.Role, opt => opt.Ignore()).ReverseMap();
-
-        CreateMap<UpdateUserByAdminDto, User>()
-            .ForPath(dest => dest.Email.Value,
-                opt => opt.MapFrom(src => src.Email))
-            .ForPath(dest => dest.Name.Value,
-                opt => opt.MapFrom(src => src.Name))
-            .ForPath(dest => dest.HashPassword.Value,
-                opt => opt.Ignore())
-            .ForPath(dest => dest.Role, opt => opt.MapFrom(src => src.Role)).ReverseMap();
     }
 }
