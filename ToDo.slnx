@@ -3,6 +3,7 @@
     <File Path=".editorconfig" />
   </Folder>
   <Folder Name="/ToDo.Tests/">
+    <Project Path="ToDo.Tests/ToDo.Api.Tests/ToDo.Api.Tests.csproj" Id="fb35f90b-ac81-4084-8dcd-4f85f6ca0420" />
     <Project Path="ToDo.Tests/ToDo.Application.Tests/ToDo.Application.Tests.csproj" Id="db29c965-b482-409c-97a2-5c6fc53a53f5" />
     <Project Path="ToDo.Tests/ToDo.Domain.Tests/ToDo.Domain.Tests.csproj" Id="a3d584e3-adff-49fd-b954-407db8eed4e1" />
     <Project Path="ToDo.Tests/ToDo.Infrastructure.Tests/ToDo.Infrastructure.Tests.csproj" Id="37b4ffa0-72cb-4fe0-bfc1-a7aec5928f15" />
