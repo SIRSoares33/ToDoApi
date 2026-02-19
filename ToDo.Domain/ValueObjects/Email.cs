@@ -14,8 +14,8 @@ public class Email
     public Email(string? email)
     {
         Validate(email);
-        Value = email!.Trim();
-    }
+        Value = email!;
+    }   
     #endregion
 
     #region Validation
