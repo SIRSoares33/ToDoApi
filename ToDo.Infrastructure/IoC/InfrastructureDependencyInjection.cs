@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Psalms.AspNetCore.Auth.Jwt;
+using Psalms.Auth.Jwt;
 using ToDo.Application.Interfaces;
 using ToDo.Domain.Interfaces.Repository;
 using ToDo.Infrastructure.Context;
@@ -24,8 +26,13 @@ public static class InfrastructureDependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
 
         // Services
+
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IUserService, UserService>();
+
+        // Psalms
+        services.AddPsalmsJwtAuthentication(configuration);
+        services.AddScoped<PsalmsJwtTokenService>();
 
         return services;
     }
