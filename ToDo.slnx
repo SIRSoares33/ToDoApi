@@ -1,4 +1,14 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+  </Folder>
+  <Folder Name="/ToDo.Tests/">
+    <Project Path="ToDo.Tests/ToDo.Api.Tests/ToDo.Api.Tests.csproj" Id="fb35f90b-ac81-4084-8dcd-4f85f6ca0420" />
+    <Project Path="ToDo.Tests/ToDo.Application.Tests/ToDo.Application.Tests.csproj" Id="db29c965-b482-409c-97a2-5c6fc53a53f5" />
+    <Project Path="ToDo.Tests/ToDo.Domain.Tests/ToDo.Domain.Tests.csproj" Id="a3d584e3-adff-49fd-b954-407db8eed4e1" />
+    <Project Path="ToDo.Tests/ToDo.Infrastructure.Tests/ToDo.Infrastructure.Tests.csproj" Id="37b4ffa0-72cb-4fe0-bfc1-a7aec5928f15" />
+  </Folder>
+  <Project Path="CrossCutting/ToDo.CrossCutting.csproj" Id="8ef40046-eae9-4a56-8bda-7ff9a621447b" />
   <Project Path="Todo.Api/Todo.Api.csproj" Id="6cb6a93f-5371-4e15-81d0-d2724fb085b7" />
   <Project Path="ToDo.Application/ToDo.Application.csproj" Id="afc2926e-20f1-4c46-ba03-c43e59eb5eca" />
   <Project Path="ToDo.Domain/ToDo.Domain.csproj" Id="d982e3be-ad67-4109-911e-ad8731891a37" />
