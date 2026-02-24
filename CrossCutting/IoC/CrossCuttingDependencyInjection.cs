@@ -49,9 +49,9 @@ public static class CrossCuttingDependencyInjection
         using var scope = services.CreateScope();
         var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
         
-        if (await context.Users.AnyAsync()) return;
-
         await context.Database.MigrateAsync();
+
+        if (await context.Users.AnyAsync()) return;
 
         var service = scope.ServiceProvider.GetRequiredService<IAuthService>();
 
