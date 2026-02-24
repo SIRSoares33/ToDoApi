@@ -38,11 +38,11 @@ public class User
 
     public void Update(string? name, string? email, string? hashedPassword, Role? role)
     {
-        if (!string.IsNullOrEmpty(name)) ChangeName(new Name(name));
+        if (!string.IsNullOrEmpty(name) || !string.IsNullOrWhiteSpace(name)) ChangeName(new Name(name));
 
-        if (!string.IsNullOrEmpty(email)) ChangeEmail(new Email(email));
+        if (!string.IsNullOrEmpty(email) || !string.IsNullOrWhiteSpace(email)) ChangeEmail(new Email(email));
 
-        if (!string.IsNullOrEmpty(hashedPassword)) ChangePassword(new Password(hashedPassword));
+        if (!string.IsNullOrEmpty(hashedPassword) || !string.IsNullOrWhiteSpace(hashedPassword)) ChangePassword(new Password(hashedPassword));
 
         if (role.HasValue) ChangeRole(role.Value);
     }
