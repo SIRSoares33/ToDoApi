@@ -113,7 +113,6 @@ The API is integrated with **Swagger**, allowing:
 git clone https://github.com/your-username/todo-api.git
 cd todo-api
 dotnet restore
-dotnet ef database update
 dotnet run
 ```
 
@@ -166,27 +165,24 @@ This file is consumed by **Docker Compose** during container startup.
 ### 📄 `.env` Example
 
 ```
-# ASP.NET Core
-ASPNETCORE_URLS=http://+:8080
+# Database
+DB_HOST=db
+DB_PORT=5432
+DB_NAME=ToDo
+DB_USER=postgres
+DB_PASSWORD=postgres
 
 # JWT
-JWT__ISSUER=ToDo.Api
-JWT__AUDIENCE=ToDo.Api
-JWT__KEY=super-secret-key-change-me
-
-# Database
-DatabaseConnection=Host=localhost;Database=Todo;Port=5432;Username=postgres;Password=...
+JWT_KEY=dev_jwt_key_example_1234567890
 ```
 
 ---
 
 ### 🔐 JWT Settings
 
-- `JWT__ISSUER` → Token issuer
-- `JWT__AUDIENCE` → Valid token audience
 - `JWT__KEY` → Key used to sign the JWT
 
-These variables are automatically read by ASP.NET Core via `IConfiguration`.
+These variable are automatically read by ASP.NET Core via `IConfiguration`.
 
 ---
 
@@ -200,7 +196,7 @@ Database variables are used in `docker-compose.yml` to:
 Generated connection string example:
 
 ```
-DatabaseConnection=Host=localhost;Database=Todo;Port=5432;Username=postgres;Password=...
+DatabaseConnection=Host=${DB_HOST};Port=${DB_PORT};Database=${DB_NAME};Username=${DB_USER};Password=${DB_PASSWORD}
 ```
 
 ---
