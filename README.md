@@ -1,83 +1,83 @@
 # ✅ ToDo API
 
-API REST para gerenciamento de tarefas (**ToDo**), desenvolvida com **ASP.NET Core**, seguindo os princípios de **Clean Architecture**, com foco em **boas práticas**, **segurança** e **manutenibilidade**.
+REST API for task management (**ToDo**), built with **ASP.NET Core**, following **Clean Architecture** principles, with a strong focus on **best practices**, **security**, and **maintainability**.
 
-Este projeto tem caráter **educacional e de portfólio**, simulando uma aplicação real de produção.
-
----
-
-## 🎯 Objetivo do Projeto
-
-- Consolidar conhecimentos em **ASP.NET Core**
-- Compor portfólio
-- Aplicar **Clean Architecture**
-- Implementar **autenticação e autorização** com JWT
-- Utilizar **MediatR** para desacoplamento
-- Praticar **boas práticas de API REST**
-- Preparar base para testes automatizados e escalabilidade
+This project is **educational and portfolio-oriented**, simulating a real-world production application.
 
 ---
 
-## 🏗️ Arquitetura
+## 🎯 Project Goals
 
-O projeto segue **Clean Architecture**, separando responsabilidades em camadas bem definidas:
+- Consolidate knowledge in **ASP.NET Core**
+- Build a strong portfolio project
+- Apply **Clean Architecture**
+- Implement **authentication and authorization** using JWT
+- Use **MediatR** for decoupling
+- Practice **REST API best practices**
+- Prepare a solid foundation for automated testing and scalability
+
+---
+
+## 🏗️ Architecture
+
+The project follows **Clean Architecture**, separating responsibilities into well-defined layers:
 
 ```
 src/
  ├── ToDo.Api              → Controllers, Middlewares, Auth
  ├── ToDo.Application      → Use Cases, DTOs, Commands, Queries
- ├── ToDo.Domain           → Entidades, Enums, Regras de Negócio
- └── ToDo.Infrastructure  → EF Core, Repositórios, Persistência
+ ├── ToDo.Domain           → Entities, Enums, Business Rules
+ └── ToDo.Infrastructure  → EF Core, Repositories, Persistence
 ```
 
-### Principais conceitos aplicados
+### Core concepts applied
 
-- Separação de responsabilidades
-- Dependência apontando para o domínio
-- Baixo acoplamento
-- Alta testabilidade
+- Separation of concerns
+- Dependency direction pointing to the domain
+- Low coupling
+- High testability
 
 ---
 
-## 🔐 Autenticação & Autorização
+## 🔐 Authentication & Authorization
 
-- Autenticação via **JWT (JSON Web Token)**
-- Controle de acesso baseado em **roles**
+- Authentication via **JWT (JSON Web Token)**
+- Role-based access control
     - `Admin`
     - `User`
-- Proteção de endpoints com `[Authorize]`
-- Restrições de acesso por perfil
-- Claims corretamente mapeadas (`NameIdentifier`, `Role`)
+- Endpoint protection using `[Authorize]`
+- Access restrictions by role
+- Properly mapped claims (`NameIdentifier`, `Role`)
 
 ---
 
-## 🔗 Endpoints principais
+## 🔗 Main Endpoints
 
-### 👤 Autenticação
+### 👤 Authentication
 
 - `POST /api/auth/login`
 - `POST /api/auth/register`
 
-### 📋 Usuários
+### 📋 Users
 
 - `GET /api/users` → Admin
 - `PUT /api/users/{id}` → Admin
 - `DELETE /api/users/{id}` → Admin
-- `PUT /api/users` → Usuário autenticado
-- `DELETE /api/users` → Usuário autenticado
+- `PUT /api/users` → Authenticated user
+- `DELETE /api/users` → Authenticated user
 
-### ✅ Tarefas (ToDo)
+### ✅ Tasks (ToDo)
 
 - `POST /api/todos`
 - `GET /api/todos`
 - `PUT /api/todos/{id}`
 - `DELETE /api/todos/{id}`
 
-*(os endpoints podem variar conforme a implementação)*
+*(Endpoints may vary depending on the implementation)*
 
 ---
 
-## 🛠️ Tecnologias Utilizadas
+## 🛠️ Technologies Used
 
 - ASP.NET Core Web API
 - C#
@@ -89,28 +89,28 @@ src/
 
 ---
 
-## 🧪 Testes via Swagger
+## 🧪 Testing via Swagger
 
-A API está integrada ao **Swagger**, permitindo:
+The API is integrated with **Swagger**, allowing:
 
-- Autenticação via JWT
-- Teste de endpoints protegidos
-- Visualização clara dos contratos da API
+- JWT authentication
+- Testing protected endpoints
+- Clear visualization of API contracts
 
 ---
 
-## ▶️ Como executar o projeto
+## ▶️ How to Run the Project
 
-### Pré-requisitos
+### Prerequisites
 
 - .NET SDK 10+
 - PostgreSQL
 - Visual Studio / VS Code
 
-### Passos
+### Steps
 
 ```
-git clone https://github.com/seu-usuario/todo-api.git
+git clone https://github.com/your-username/todo-api.git
 cd todo-api
 dotnet restore
 dotnet ef database update
@@ -119,27 +119,27 @@ dotnet run
 
 ---
 
-## 🐳 Executando com Docker-Compose
+## 🐳 Running with Docker Compose
 
-O projeto também pode ser executado utilizando **Docker-Compose**, facilitando a configuração do ambiente e eliminando a necessidade de instalar dependências localmente (como banco de dados).
+The project can also be run using **Docker Compose**, simplifying environment setup and eliminating the need to install dependencies locally (such as the database).
 
-### 🔧 Pré-requisitos
+### 🔧 Prerequisites
 
 - Docker
-- Docker-Compose
+- Docker Compose
 
 ---
 
-### ▶️ Como executar
+### ▶️ How to Run
 
-1. Na raiz do projeto, execute:
+1. From the project root, run:
 
 ```
-docker-compose up--build
+docker-compose up --build
 ```
 
-1. Aguarde a inicialização dos containers
-2. Acesse a API em:
+1. Wait for the containers to start
+2. Access the API at:
 
 ```
 http://localhost:8080/swagger
@@ -147,21 +147,23 @@ http://localhost:8080/swagger
 
 ---
 
-### 🧩 O que o Docker Compose sobe
+### 🧩 What Docker Compose Runs
 
-- API ASP.NET Core
-- Banco de dados (PostgreSQL)
-- Rede interna para comunicação entre os serviços
-
-## ⚙️ Configuração do arquivo `.env`
-
-O projeto utiliza um arquivo **`.env`** para armazenar **variáveis de ambiente**, evitando que informações sensíveis fiquem versionadas no código-fonte.
-
-Esse arquivo é consumido pelo **Docker Compose** durante a inicialização dos containers.
+- ASP.NET Core API
+- Database (PostgreSQL)
+- Internal network for service communication
 
 ---
 
-### 📄 Exemplo de `.env`
+## ⚙️ `.env` File Configuration
+
+The project uses a **`.env`** file to store **environment variables**, preventing sensitive data from being committed to source control.
+
+This file is consumed by **Docker Compose** during container startup.
+
+---
+
+### 📄 `.env` Example
 
 ```
 # ASP.NET Core
@@ -178,24 +180,24 @@ DatabaseConnection=Host=localhost;Database=Todo;Port=5432;Username=postgres;Pass
 
 ---
 
-### 🔐 JWT
+### 🔐 JWT Settings
 
-- `JWT__ISSUER` → Emissor do token
-- `JWT__AUDIENCE` → Público válido do token
-- `JWT__KEY` → Chave usada para assinar o JWT
+- `JWT__ISSUER` → Token issuer
+- `JWT__AUDIENCE` → Valid token audience
+- `JWT__KEY` → Key used to sign the JWT
 
-Essas variáveis são lidas automaticamente pelo ASP.NET Core através do `IConfiguration`.
+These variables are automatically read by ASP.NET Core via `IConfiguration`.
 
 ---
 
-### 🗄️ Banco de Dados
+### 🗄️ Database
 
-As variáveis de banco são utilizadas no `docker-compose.yml` para:
+Database variables are used in `docker-compose.yml` to:
 
-- configurar o container do banco
-- montar a **connection string** da aplicação
+- Configure the database container
+- Build the application **connection string**
 
-Exemplo de connection string gerada:
+Generated connection string example:
 
 ```
 DatabaseConnection=Host=localhost;Database=Todo;Port=5432;Username=postgres;Password=...
@@ -203,45 +205,46 @@ DatabaseConnection=Host=localhost;Database=Todo;Port=5432;Username=postgres;Pass
 
 ---
 
-### 🧠 Convenção usada
+### 🧠 Naming Convention Used
 
-O padrão `JWT__KEY` (com **duplo underline**) é uma convenção do ASP.NET Core para mapear configurações hierárquicas, equivalente a:
+The `JWT__KEY` pattern (with **double underscore**) is an ASP.NET Core convention for mapping hierarchical configuration, equivalent to:
 
 ```
 {
   "JWT": {
-    "KEY":"super-secret-key-change-me"
+    "KEY": "super-secret-key-change-me"
   }
 }
 ```
 
 ---
 
-### ▶️ Fluxo de execução com `.env`
+### ▶️ Execution Flow with `.env`
 
-1. O Docker Compose carrega o arquivo `.env`
-2. As variáveis são injetadas nos containers
-3. O ASP.NET Core lê essas variáveis automaticamente
-4. A aplicação inicia já configurada
-
----
-
-## 📌 Boas práticas adotadas
-
-- DTOs para comunicação externa
-- Validações no Application Layer
-- Controllers enxutos
-- Regra de negócio isolada no domínio
-- Segurança baseada em roles
-- Código organizado e legível
+1. Docker Compose loads the `.env` file
+2. Environment variables are injected into the containers
+3. ASP.NET Core automatically reads the variables
+4. The application starts fully configured
 
 ---
 
-## 👨‍💻 Autor
+## 📌 Best Practices Adopted
+
+- DTOs for external communication
+- Validations in the Application layer
+- Thin controllers
+- Business rules isolated in the Domain layer
+- Role-based security
+- Clean, organized, and readable code
+
+---
+
+## 👨‍💻 Author
 
 **Gustavo Soares**
 
-Desenvolvedor .NET em início de carreira, focado em backend, APIs REST e boas práticas de arquitetura.
+Junior .NET Developer focused on backend development, REST APIs, and software architecture best practices.
 
-## Meu portfólio
+### 🌐 Portfolio
+
 https://sirsoares33.github.io/gustavosoares.github.io/index.html
