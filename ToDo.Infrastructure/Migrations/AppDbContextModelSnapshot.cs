@@ -22,6 +22,29 @@ namespace ToDo.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("ToDo.Domain.Entities.Todo", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<bool>("IsCompleted")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTime>("UpdateAt")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ToDos", (string)null);
+                });
+
             modelBuilder.Entity("ToDo.Domain.Entities.User", b =>
                 {
                     b.Property<Guid>("Id")
@@ -36,9 +59,53 @@ namespace ToDo.Infrastructure.Migrations
                     b.ToTable("Users", (string)null);
                 });
 
+            modelBuilder.Entity("ToDo.Domain.Entities.Todo", b =>
+                {
+                    b.OwnsOne("ToDo.Domain.ValueObjects.Task.Description", "Description", b1 =>
+                        {
+                            b1.Property<Guid>("TodoId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Value")
+                                .HasColumnType("text")
+                                .HasColumnName("Description");
+
+                            b1.HasKey("TodoId");
+
+                            b1.ToTable("ToDos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TodoId");
+                        });
+
+                    b.OwnsOne("ToDo.Domain.ValueObjects.Task.Title", "Title", b1 =>
+                        {
+                            b1.Property<Guid>("TodoId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Value")
+                                .IsRequired()
+                                .HasColumnType("text")
+                                .HasColumnName("Title");
+
+                            b1.HasKey("TodoId");
+
+                            b1.ToTable("ToDos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("TodoId");
+                        });
+
+                    b.Navigation("Description")
+                        .IsRequired();
+
+                    b.Navigation("Title")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("ToDo.Domain.Entities.User", b =>
                 {
-                    b.OwnsOne("ToDo.Domain.ValueObjects.Email", "Email", b1 =>
+                    b.OwnsOne("ToDo.Domain.ValueObjects.Users.Email", "Email", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uuid");
@@ -56,7 +123,7 @@ namespace ToDo.Infrastructure.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsOne("ToDo.Domain.ValueObjects.Name", "Name", b1 =>
+                    b.OwnsOne("ToDo.Domain.ValueObjects.Users.Name", "Name", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uuid");
@@ -74,7 +141,7 @@ namespace ToDo.Infrastructure.Migrations
                                 .HasForeignKey("UserId");
                         });
 
-                    b.OwnsOne("ToDo.Domain.ValueObjects.Password", "HashPassword", b1 =>
+                    b.OwnsOne("ToDo.Domain.ValueObjects.Users.Password", "HashPassword", b1 =>
                         {
                             b1.Property<Guid>("UserId")
                                 .HasColumnType("uuid");

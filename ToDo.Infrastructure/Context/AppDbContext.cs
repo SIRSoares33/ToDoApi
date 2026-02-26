@@ -15,6 +15,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 {
     #region DbSets
     public DbSet<User> Users { get; set; }
+    public DbSet<Todo> Todos { get; set; }
     #endregion
 
     #region Model Configuration

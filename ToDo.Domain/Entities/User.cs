@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using ToDo.Domain.Enums;
-using ToDo.Domain.ValueObjects;
+using ToDo.Domain.ValueObjects.Users;
 
 namespace ToDo.Domain.Entities;
 
