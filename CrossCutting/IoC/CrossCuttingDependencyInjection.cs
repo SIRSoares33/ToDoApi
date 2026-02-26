@@ -3,14 +3,14 @@ using FluentValidation.AspNetCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using ToDo.Application.Features.Handlers.Auth;
+using ToDo.Application.Features.Mappings.ToDo;
 using ToDo.Application.Features.Mappings.Users;
 using ToDo.Application.Features.Validations.Auth;
 using ToDo.Application.Interfaces;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Enums;
-using ToDo.Domain.ValueObjects;
+using ToDo.Domain.ValueObjects.Users;
 using ToDo.Infrastructure.Context;
 
 namespace ToDo.CrossCutting.IoC;
@@ -33,13 +33,7 @@ public static class CrossCuttingDependencyInjection
 
         // AutoMapper
         services.AddAutoMapper(cfg => cfg.AddProfile<UserProfile>());
-
-        // Logs
-        services.AddLogging(config =>
-        {
-            config.AddConsole();
-            config.SetMinimumLevel(LogLevel.Information);
-        });
+        services.AddAutoMapper(cfg => cfg.AddProfile<ToDoProfile>());
 
         return services;
     }
