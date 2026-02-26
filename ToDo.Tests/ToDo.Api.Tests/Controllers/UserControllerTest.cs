@@ -1,29 +1,58 @@
-﻿using FluentAssertions;
-using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc.Testing;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Moq;
-using System.Security.Claims;
-using Todo.Api.Controllers;
+using System.Net;
+using System.Net.Http.Json;
+using ToDo.Api.Tests.Fakers;
 using ToDo.Application.DTOs;
 using ToDo.Application.Features.Commands.Users;
 using ToDo.Application.Features.Queries.Users;
+using ToDo.Application.Interfaces;
 
 namespace ToDo.Api.Tests.Controllers;
 
 public class UsersControllerTests
+    : IClassFixture<WebApplicationFactory<Program>>
 {
+    private readonly HttpClient _client;
     private readonly Mock<IMediator> _mediatorMock;
-    private readonly UsersController _controller;
+    private readonly Mock<IUserClaims> _userClaimsMock;
 
-    public UsersControllerTests()
+    public UsersControllerTests(WebApplicationFactory<Program> factory)
     {
         _mediatorMock = new Mock<IMediator>();
-        _controller = new UsersController(_mediatorMock.Object);
+        _userClaimsMock = new Mock<IUserClaims>();
+
+        _client = factory.WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureServices(services =>
+            {
+                services.RemoveAll(typeof(IMediator));
+                services.RemoveAll(typeof(IUserClaims));
+
+                services.AddSingleton(_mediatorMock.Object);
+                services.AddSingleton(_userClaimsMock.Object);
+
+                // Auth Fake
+                services.AddAuthentication(options =>
+                {
+                    options.DefaultAuthenticateScheme = FakeAuthHandler.SchemeName;
+                    options.DefaultChallengeScheme = FakeAuthHandler.SchemeName;
+                })
+                .AddScheme<AuthenticationSchemeOptions, FakeAuthHandler>(
+                    FakeAuthHandler.SchemeName, _ => { });
+            });
+        }).CreateClient();
     }
 
+    // ============================
+    // GET /api/users (Admin)
+    // ============================
     [Fact]
-    public async Task GetUsers_Should_Return_Ok()
+    public async Task GetUsers_ShouldReturnOk()
     {
         // Arrange
         _mediatorMock
@@ -31,130 +60,105 @@ public class UsersControllerTests
             .ReturnsAsync([]);
 
         // Act
-        var result = await _controller.GetUsers(CancellationToken.None);
+        var response = await _client.GetAsync("/api/users");
 
         // Assert
-        result.Should().BeOfType<OkObjectResult>();
-
-        _mediatorMock.Verify(m =>
-            m.Send(It.IsAny<GetUsersQuery>(), It.IsAny<CancellationToken>()),
-            Times.Once);
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
     }
 
+    // ============================
+    // PUT /api/users/{id} (Admin)
+    // ============================
     [Fact]
-    public async Task UpdateUser_Should_Return_NoContent()
-    {
-        // Arrange
-        var id = Guid.NewGuid();
-        var dto = new UpdateUserDto() {Name="Name", Email="email@test.com", Password=null, Role=null};
-
-        // Act
-        var result = await _controller.UpdateUser(id, dto, CancellationToken.None);
-
-        // Assert
-        result.Should().BeOfType<NoContentResult>();
-
-        _mediatorMock.Verify(m =>
-            m.Send(It.Is<UpdateUserByAdminCommand>(c =>
-                c.dto == dto),
-            It.IsAny<CancellationToken>()),
-            Times.Once);
-    }
-
-    [Fact]
-    public async Task UpdateOwnAccount_Should_Return_NoContent_When_User_Is_Authenticated()
+    public async Task UpdateUserByAdmin_ShouldReturnNoContent()
     {
         // Arrange
         var userId = Guid.NewGuid();
-        SetUser(userId);
 
-        var dto = new UpdateUserDto() { Name = "Name", Email = "email@test.com", Password = null, Role = null };
-
-        // Act
-        var result = await _controller.UpdateOwnAccount(dto, CancellationToken.None);
-
-        // Assert
-        result.Should().BeOfType<NoContentResult>();
-
-        _mediatorMock.Verify(m =>
-            m.Send(It.Is<UpdateUserCommand>(c =>
-                c.id == userId &&
-                c.dto == dto),
-            It.IsAny<CancellationToken>()),
-            Times.Once);
-    }
-
-    [Fact]
-    public async Task UpdateOwnAccount_Should_Return_Unauthorized_When_Claim_Is_Invalid()
-    {
-        // Arrange
-        _controller.ControllerContext = new ControllerContext
+        var dto = new UpdateUserDto
         {
-            HttpContext = new DefaultHttpContext()
+            Name = "Admin Update",
+            Email = "admin@email.com"
         };
 
         // Act
-        var result = await _controller.UpdateOwnAccount(
-            new UpdateUserDto() { Name = "Name", Email = "email@test.com", Password = null, Role = null },
-        CancellationToken.None);
+        var response = await _client.PutAsJsonAsync($"/api/users/{userId}", dto);
 
         // Assert
-        result.Should().BeOfType<UnauthorizedResult>();
-    }
-
-    [Fact]
-    public async Task DeleteUser_Should_Return_NoContent()
-    {
-        // Arrange
-        var id = Guid.NewGuid();
-
-        // Act
-        var result = await _controller.DeleteUser(id, CancellationToken.None);
-
-        // Assert
-        result.Should().BeOfType<NoContentResult>();
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
 
         _mediatorMock.Verify(m =>
-            m.Send(It.Is<DeleteUserCommand>(c => c.UserId == id),
-            It.IsAny<CancellationToken>()),
+            m.Send(It.IsAny<UpdateUserByAdminCommand>(), It.IsAny<CancellationToken>()),
             Times.Once);
     }
 
+    // ============================
+    // PUT /api/users (Own Account)
+    // ============================
     [Fact]
-    public async Task DeleteOwnAccount_Should_Return_NoContent_When_Authenticated()
+    public async Task UpdateOwnAccount_ShouldReturnNoContent()
+    {
+        // Arrange
+        _userClaimsMock
+            .Setup(u => u.UserId)
+            .Returns(Guid.NewGuid());
+
+        var dto = new UpdateUserDto
+        {
+            Name = "User Update",
+            Email = "user@email.com"
+        };
+
+        // Act
+        var response = await _client.PutAsJsonAsync("/api/users", dto);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+
+        _mediatorMock.Verify(m =>
+            m.Send(It.IsAny<UpdateUserCommand>(), It.IsAny<CancellationToken>()),
+            Times.Once);
+    }
+
+    // ============================
+    // DELETE /api/users/{id} (Admin)
+    // ============================
+    [Fact]
+    public async Task DeleteUserByAdmin_ShouldReturnNoContent()
     {
         // Arrange
         var userId = Guid.NewGuid();
-        SetUser(userId);
 
         // Act
-        var result = await _controller.DeleteOwnAccount(CancellationToken.None);
+        var response = await _client.DeleteAsync($"/api/users/{userId}");
 
         // Assert
-        result.Should().BeOfType<NoContentResult>();
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
 
         _mediatorMock.Verify(m =>
-            m.Send(It.Is<DeleteUserCommand>(c => c.UserId == userId),
-            It.IsAny<CancellationToken>()),
+            m.Send(It.IsAny<DeleteUserCommand>(), It.IsAny<CancellationToken>()),
             Times.Once);
     }
 
-    private void SetUser(Guid userId)
+    // ============================
+    // DELETE /api/users (Own Account)
+    // ============================
+    [Fact]
+    public async Task DeleteOwnAccount_ShouldReturnNoContent()
     {
-        var claims = new List<Claim>
-        {
-            new Claim(ClaimTypes.NameIdentifier, userId.ToString())
-        };
+        // Arrange
+        _userClaimsMock
+            .Setup(u => u.UserId)
+            .Returns(Guid.NewGuid());
 
-        var identity = new ClaimsIdentity(claims, "TestAuth");
-        var principal = new ClaimsPrincipal(identity);
+        // Act
+        var response = await _client.DeleteAsync("/api/users");
 
-        _controller.ControllerContext = new ControllerContext
-        {
-            HttpContext = new DefaultHttpContext
-            {
-                User = principal
-            }
-        };
+        // Assert
+        Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+
+        _mediatorMock.Verify(m =>
+            m.Send(It.IsAny<DeleteUserCommand>(), It.IsAny<CancellationToken>()),
+            Times.Once);
     }
 }

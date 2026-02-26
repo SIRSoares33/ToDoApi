@@ -8,6 +8,7 @@ using ToDo.Application.Interfaces;
 using ToDo.Domain.Entities;
 using ToDo.Domain.Enums;
 using ToDo.Domain.ValueObjects;
+using ToDo.Domain.ValueObjects.Users;
 
 namespace ToDo.Application.Tests.Handlers.Users;
 
