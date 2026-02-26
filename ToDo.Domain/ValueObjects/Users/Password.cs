@@ -1,6 +1,6 @@
 ﻿using ToDo.Domain.Exceptions;
 
-namespace ToDo.Domain.ValueObjects;
+namespace ToDo.Domain.ValueObjects.Users;
 
 public class Password
 {
