@@ -4,11 +4,8 @@ using ToDo.Application.Interfaces;
 
 namespace ToDo.Application.Features.Handlers.ToDo;
 
-public class DeleteToDoHandler(ITodoService service) : IRequestHandler<RemoveToDoCommand, Unit>
+public class DeleteToDoHandler(ITodoService service) : IRequestHandler<DeleteToDoCommand, Unit>
 {
-    public async Task<Unit> Handle(RemoveToDoCommand request, CancellationToken cancellationToken)
-       => request.Id is null ? 
-        await service.DeleteAllTodosAsync(cancellationToken)
-        :
-        await service.DeleteTodoAsync(request.Id.Value, cancellationToken);
+    public async Task<Unit> Handle(DeleteToDoCommand request, CancellationToken cancellationToken)
+       => await service.DeleteTodoAsync(request.Id, cancellationToken);
 }

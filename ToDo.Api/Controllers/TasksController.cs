@@ -44,14 +44,14 @@ public class TasksController(IMediator mediator) : ControllerBase
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteTask(Guid id, CancellationToken cancellationToken)
     { 
-        await mediator.Send(new RemoveToDoCommand(id), cancellationToken);
+        await mediator.Send(new DeleteToDoCommand(id), cancellationToken);
         return NoContent();
     }
 
     [HttpDelete]
     public async Task<IActionResult> DeleteAllTasks(CancellationToken cancellationToken)
     {
-        await mediator.Send(new RemoveToDoCommand(null), cancellationToken);
+        await mediator.Send(new DeleteAllToDosCommand(), cancellationToken);
         return NoContent();
     }
 }
