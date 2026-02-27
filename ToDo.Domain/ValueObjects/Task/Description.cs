@@ -1,4 +1,6 @@
-﻿namespace ToDo.Domain.ValueObjects.Task;
+﻿using ToDo.Domain.Exceptions;
+
+namespace ToDo.Domain.ValueObjects.Task;
 
 public class Description
 {
@@ -13,7 +15,7 @@ public class Description
         if (string.IsNullOrEmpty(value)) return;
 
         if (value.Length > 500)
-            throw new ArgumentException("Description cannot exceed 500 characters.");
+            throw new DomainException("Description cannot exceed 500 characters.");
 
         Value = value;
     }
