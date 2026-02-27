@@ -6,7 +6,7 @@ using ToDo.Application.Features.Commands.Task;
 using ToDo.Application.Features.Commands.ToDo;
 using ToDo.Application.Features.Queries.Task;
 
-namespace Todo.Api.Controllers;
+namespace ToDo.Api.Controllers;
 
 [Authorize]
 [Route("api/[controller]")]

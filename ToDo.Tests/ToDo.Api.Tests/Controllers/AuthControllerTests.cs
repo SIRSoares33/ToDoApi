@@ -6,10 +6,10 @@ using ToDo.Application.DTOs;
 using ToDo.Application.Features.Commands.Auth;
 using ToDo.Application.Features.Commands.Users;
 using ToDo.Domain.Enums;
-using Todo.Api.Controllers;
+using ToDo.Api.Controllers;
 using ToDo.Application.Features.Responses.Auth;
 
-namespace Todo.Api.Tests.Controllers;
+namespace ToDo.Api.Tests.Controllers;
 
 public class AuthControllerTests
 {

@@ -1,4 +1,4 @@
-using Todo.Api.Middlewares;
+using ToDo.Api.Middlewares;
 using ToDo.CrossCutting.IoC;
 using ToDo.Infrastructure.IoC;
 

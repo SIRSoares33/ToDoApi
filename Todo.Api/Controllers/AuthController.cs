@@ -6,7 +6,7 @@ using ToDo.Application.Features.Commands.Auth;
 using ToDo.Application.Features.Commands.Users;
 using ToDo.Domain.Enums;
 
-namespace Todo.Api.Controllers;
+namespace ToDo.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]

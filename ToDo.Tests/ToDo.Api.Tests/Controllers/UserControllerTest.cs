@@ -6,9 +6,9 @@ using ToDo.Application.DTOs;
 using ToDo.Application.Features.Commands.Users;
 using ToDo.Application.Features.Queries.Users;
 using ToDo.Application.Interfaces;
-using Todo.Api.Controllers;
+using ToDo.Api.Controllers;
 
-namespace Todo.Api.Tests.Controllers;
+namespace ToDo.Api.Tests.Controllers;
 
 public class UsersControllerTests
 {

@@ -6,7 +6,7 @@ using ToDo.Application.Features.Commands.Users;
 using ToDo.Application.Features.Queries.Users;
 using ToDo.Application.Interfaces;
 
-namespace Todo.Api.Controllers;
+namespace ToDo.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]

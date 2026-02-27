@@ -2,7 +2,7 @@
 using System.Text.Json;
 using ToDo.Domain.Exceptions;
 
-namespace Todo.Api.Middlewares;
+namespace ToDo.Api.Middlewares;
 
 public class ExceptionMiddleware(
     RequestDelegate next,
