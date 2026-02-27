@@ -1,5 +1,5 @@
 ﻿using ToDo.Domain.Exceptions;
-using ToDo.Domain.ValueObjects;
+using ToDo.Domain.ValueObjects.Users;
 
 namespace ToDo.Domain.Tests.ValueObjects;
 

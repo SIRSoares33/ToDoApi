@@ -1,16 +1,16 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 using ToDo.Application.DTOs;
 using ToDo.Application.Features.Commands.Users;
 using ToDo.Application.Features.Queries.Users;
+using ToDo.Application.Interfaces;
 
 namespace Todo.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class UsersController(IMediator mediator) : ControllerBase
+public class UsersController(IMediator mediator, IUserClaims userClaims) : ControllerBase
 {
     [Authorize(Roles = "Admin")]
     [HttpGet]
@@ -26,10 +26,7 @@ public class UsersController(IMediator mediator) : ControllerBase
     [HttpPut]
     public async Task<IActionResult> UpdateOwnAccount([FromBody] UpdateUserDto dto, CancellationToken cancellationToken)
     {
-        if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var guidId))
-            return Unauthorized();
-
-        await mediator.Send(new UpdateUserCommand(guidId, dto), cancellationToken);
+        await mediator.Send(new UpdateUserCommand(userClaims.UserId, dto), cancellationToken);
         return NoContent();
     }
 
@@ -42,10 +39,7 @@ public class UsersController(IMediator mediator) : ControllerBase
     [HttpDelete]
     public async Task<IActionResult> DeleteOwnAccount(CancellationToken cancellationToken)
     {
-        if (!Guid.TryParse(User.FindFirstValue(ClaimTypes.NameIdentifier), out var guidId))
-            return Unauthorized();
-
-        await mediator.Send(new DeleteUserCommand(guidId), cancellationToken);
+        await mediator.Send(new DeleteUserCommand(userClaims.UserId), cancellationToken);
         return NoContent();
     }
 }

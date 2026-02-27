@@ -8,6 +8,7 @@ using ToDo.Domain.Entities;
 using ToDo.Domain.Enums;
 using ToDo.Domain.Interfaces.Repository;
 using ToDo.Domain.ValueObjects;
+using ToDo.Domain.ValueObjects.Users;
 using ToDo.Infrastructure.Services;
 
 namespace ToDo.Infrastructure.Tests.Services;

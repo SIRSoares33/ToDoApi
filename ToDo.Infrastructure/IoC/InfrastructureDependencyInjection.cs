@@ -7,6 +7,7 @@ using Psalms.Auth.Jwt;
 using ToDo.Application.Interfaces;
 using ToDo.Domain.Interfaces.Repository;
 using ToDo.Infrastructure.Context;
+using ToDo.Infrastructure.Extensions;
 using ToDo.Infrastructure.Repositories;
 using ToDo.Infrastructure.Services;
 
@@ -24,11 +25,17 @@ public static class InfrastructureDependencyInjection
 
         // Repositories
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<ITodoRepository, TodoRepository>();
 
         // Services
 
         services.AddScoped<IAuthService, AuthService>();
         services.AddScoped<IUserService, UserService>();
+        services.AddScoped<ITodoService, TodoService>();
+
+        // Extensions
+        services.AddHttpContextAccessor();
+        services.AddScoped<IUserClaims, UserClaims>();
 
         // Psalms
         services.AddPsalmsJwtAuthentication(configuration);
